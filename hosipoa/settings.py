@@ -18,13 +18,13 @@ def get_env_value(env_variable):
 SECRET_KEY = get_env_value('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = get_env_value('DEBUG')
+DEBUG = get_env_value('DEBUG') == 'True'
 
 ADMINS = [('Ochom', 'ochomrichard752@gmail.com')]
 
 ALLOWED_HOSTS = get_env_value('ALLOWED_HOSTS').split(" ")
 
-DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Application definition
 
