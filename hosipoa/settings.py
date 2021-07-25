@@ -18,13 +18,13 @@ def get_env_value(env_variable):
 SECRET_KEY = get_env_value('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = get_env_value('DEBUG')
+DEBUG = get_env_value('DEBUG') == 'True'
 
 ADMINS = [('Ochom', 'ochomrichard752@gmail.com')]
 
 ALLOWED_HOSTS = get_env_value('ALLOWED_HOSTS').split(" ")
 
-DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Application definition
 
@@ -155,7 +155,7 @@ STATIC_URL = '/static/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = get_env_value('EMAIL_HOST')
-EMAIL_USE_TLS = get_env_value('EMAIL_USE_TLS')
+EMAIL_USE_TLS = get_env_value('EMAIL_USE_TLS') == 'True'
 EMAIL_PORT = int(get_env_value('EMAIL_PORT'))
 DEFAULT_FROM_EMAIL = get_env_value('DEFAULT_FROM_EMAIL')
 EMAIL_HOST_USER = get_env_value('EMAIL_HOST_USER')
