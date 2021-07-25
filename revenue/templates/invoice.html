@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>{{title}}</title>
+  <style>
+    /* body {
+      width: 21cm;
+      height: auto;
+      font-size: 15px;
+      line-height: 1.5em;
+      justify-content: center !important;
+    } */
+
+    h1,
+    h2,
+    h3 {
+      color: rgb(5, 52, 161);
+      margin: 0;
+      margin-bottom: 5px;
+    }
+
+    .bg-primary {
+      background-color: rgb(5, 52, 161);
+      color: white;
+      padding: 5px 10px;
+    }
+
+    .title {
+      display: block;
+    }
+
+    .company {
+      text-align: left;
+      float: left;
+    }
+
+    .invoice {
+      text-align: right;
+    }
+
+    .invoice-values span {
+      display: inline-block;
+      border: 1px solid grey;
+      width: 3cm;
+      padding: 1px 3px;
+    }
+
+    .bill-to {
+      margin-top: 30px;
+      width: 50%;
+    }
+
+    .items {
+      margin-top: 30px;
+      width: 100%;
+    }
+
+    .items table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .items thead tr th {
+      padding: 5px 5px;
+    }
+
+    .items thead tr th:last-child {
+      width: 150px;
+    }
+
+    .items thead tr th:nth-child(2) {
+      width: 100px;
+    }
+
+    .items tbody tr td {
+      padding: 0 0 0 20px;
+    }
+
+    .items tbody tr td:nth-child(2) {
+      text-align: center;
+      padding: 0;
+    }
+
+    .items tbody tr td:nth-child(3) {
+      text-align: right;
+      padding: 0 10px 0 0;
+    }
+
+    .footer1 {
+      margin-top: 20px;
+      display: block;
+    }
+
+
+    .totals {
+      text-align: right;
+      float: right;
+    }
+
+    .comments {
+      margin: 30px 0;
+      width: 10cm;
+      border: 1px solid grey;
+    }
+
+    .totals-values span {
+      display: inline-block;
+      border: 1px solid grey;
+      width: 3cm;
+      padding: 1px 3px;
+    }
+
+    .footer2 {
+      text-align: center;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="titles">
+    <div class="company">
+      <h3>{{invoice.organization.organization_name}}</h3>
+      <div>{{invoice.organization.postal_address}}</div>
+      <div>{{invoice.organization.physical_address}}</div>
+      <div>Phone: {{invoice.organization.phone}}</div>
+      <div>Email: {{invoice.organization.email}}</div>
+      <div>Webiste: ...</div>
+    </div>
+    <div class="invoice">
+      <h2><b>INVOICE</b></h2>
+      <div class="invoice-values">
+        DATE: <span>{{invoice.created|date:"M d, Y"}}</span><br />
+        INVOICE #: <span>{{invoice.id}}</span><br />
+        CUSTOMER ID: <span>{{invoice.patient_id.id}}</span><br />
+        DUE DATE: <span style="background-color: rgb(187, 184, 184);">{{ due_date|date:"M d, Y" }}</span><br />
+      </div>
+    </div>
+  </div>
+
+  <div class="bill-to">
+    <h3 class="bg-primary">BILL TO</h3>
+    <span>Name: {{invoice.patient_id.fullname}}</span><br />
+    <span>Address: {{invoice.patient_id.county}}, {{invoice.patient_id.country}}</span><br />
+    <span>Phone: {{invoice.patient_id.phone}}</span><br />
+    <span>Email: {{invoice.patient_id.email}}</span><br />
+  </div>
+
+  <div class="items">
+    <table border="1">
+      <thead class="bg-primary">
+        <tr>
+          <th>Description</th>
+          <th>Qnty</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if invoice.service_requests is not None %}
+        {% for service in invoice.service_requests.all %}
+        <tr>
+          <td>{{service.service_name}}</td>
+          <td>{{service.quantity}}</td>
+          <td>{{service.cost}}</td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+      </tbody>
+    </table>
+    {% if invoice.service_requests.all is None %}
+    <p>No Items found</p>
+    {% endif %}
+  </div>
+
+  <div class="footer1">
+    <div class="totals">
+      <div class="totals-values">
+        Subtotal: <span>{{subtotal}}</span><br />
+        Items #: <span>{{items_count}}</span><br />
+        Tax: <span>{{tax}}</span><br />
+        Grand Total: <span>{{grand_total}}</span><br />
+      </div>
+    </div>
+  </div>
+  <div class="comments">
+    <div class="bg-primary">OTHER COMMENTS</div>
+    <ol>
+      <li>Please include the invoice number on your check.</li>
+    </ol>
+  </div>
+  <div class="footer2">
+    <p>If you have any questions about this invoice, please contact us.<br /><br />
+      <b>Thank You For Your Business!</b></p>
+  </div>
+</body>
+
+</html>
