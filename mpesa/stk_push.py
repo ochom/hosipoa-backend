@@ -6,13 +6,15 @@ import datetime
 import requests
 from requests.auth import HTTPBasicAuth
 
+from hosipoa import settings
+
 logger = logging.Logger('catch_all')
 
-BUSINESS_SHORT_CODE = "174379"
-CONSUMER_KEY = "AmVdyEx1T92GRSZBDraT3Ab9eoMWmVM0"
-CONSUMER_SECRETE = "aaL3na28AeTNiP6Y"
-ONLINE_PASSKEY = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
-CALLBACK_URL = "https://hosipoa-backend.herokuapp.com/api/mpesa/callback/"
+BUSINESS_SHORT_CODE = settings.get_env_value('MPESA_BUSINESS_SHORT_CODE')
+CONSUMER_KEY = settings.get_env_value('MPESA_CONSUMER_KEY')
+CONSUMER_SECRETE = settings.get_env_value('MPESA_CONSUMER_SECRETE')
+ONLINE_PASSKEY = settings.get_env_value('MPESA_ONLINE_PASSKEY')
+CALLBACK_URL = settings.get_env_value('MPESA_CALLBACK_URL')
 
 
 def get_mpesa_token():
@@ -74,11 +76,8 @@ def push(phone, amount, order_id):
     # CheckoutRequestID = response.text['CheckoutRequestID']
 
     # Do something in your database e.g store the transaction or as an order
-    # make sure to store the CheckoutRequestID to identify the tranaction in
+    # make sure to store the CheckoutRequestID to identify the transaction in
     # your CallBackURL endpoint.
 
-    # return a respone to your user
+    # return a response to your user
     return {"success": True, "data": response.json()}
-
-
-# push("0797969142", "1", 1)
