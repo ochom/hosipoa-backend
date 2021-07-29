@@ -153,15 +153,18 @@ class ServiceRequestQueue(ModelViewSet):
         department = request.GET.get('department', 0)
         org = self.request.user.organization
         queue = []
-        for patient in Patient.objects.filter(organization=org):
-            requests = models.ServiceRequest.objects.filter(is_approved=True,
-                                                            is_served=False,
-                                                            patient_id=patient.pk,
-                                                            department=department)
-            p_data = PatientSerializer(instance=patient).data
-            request_list = self.serializer_class(requests, many=True).data
-            if len(requests) > 0:
-                queue.append({'patient': p_data, 'service_requests': request_list})
+
+        requests = models.ServiceRequest.objects.filter(
+            organization=org,
+            is_approved=True,
+            is_served=False,
+            department=department)
+
+        for request in requests:
+            p_data = PatientSerializer(instance=request.patient_id).data
+            request_list = self.serializer_class(request).data
+            queue.append({'patient': p_data, 'service_request': request_list})
+
         return Response(queue, status=status.HTTP_200_OK)
 
 
