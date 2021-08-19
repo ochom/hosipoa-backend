@@ -1,3 +1,4 @@
+from mpesa.stk_push import sanitize_phone_number
 from django.conf import settings
 from django.db import models
 
@@ -12,9 +13,6 @@ class Organization(models.Model):
     phone = models.CharField(max_length=100)
     currency = models.CharField(max_length=20, default="Ksh.")
     is_verified = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.organization_name
 
 
 class BaseModel(models.Model):
