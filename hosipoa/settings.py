@@ -100,8 +100,20 @@ WSGI_APPLICATION = 'hosipoa.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': dj_database_url.parse(get_env_value('DATABASE_URL'),  conn_max_age=600)
+# }
+
+# if os.environ.get('GITHUB_WORKFLOW'):
 DATABASES = {
-    'default': dj_database_url.parse(get_env_value('DATABASE_URL'), conn_max_age=600)
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': get_env_value('DB_NAME'),
+        'USER': get_env_value('DB_USER'),
+        'PASSWORD': get_env_value('DB_PASSWORD'),
+        'HOST': get_env_value('DB_HOST'),
+        'PORT': int(get_env_value('DB_PORT')),
+    }
 }
 
 # Password validation
