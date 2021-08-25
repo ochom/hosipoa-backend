@@ -87,7 +87,7 @@ class Group(BaseModel):
 
 class User(AbstractUser):
     organization = models.ForeignKey(Organization,
-                                     related_name="accounts_users",
+                                     related_name="users",
                                      on_delete=models.CASCADE,
                                      null=True
                                      )

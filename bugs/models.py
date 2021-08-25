@@ -14,5 +14,6 @@ class Bug(BaseModel):
 
 
 class Replies(BaseModel):
-    bug = models.ForeignKey(Bug, related_name="replies", on_delete=models.CASCADE, null=True)
+    bug = models.ForeignKey(Bug, related_name="replies",
+                            on_delete=models.CASCADE, null=True)
     reply = models.TextField()
